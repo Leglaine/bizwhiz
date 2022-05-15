@@ -3,6 +3,11 @@ const app = require("../../app");
 const db = require("../../api/db/models");
 
 describe("POST /api/users", () => {
+    // Protect tests from improper teardown
+    beforeAll(async () => {
+        await db.User.destroy({ where: {} });
+    });
+
     afterAll(async () => {
         await db.User.destroy({ where: {} });
         await db.sequelize.close();
