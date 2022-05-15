@@ -31,7 +31,9 @@ exports.createAccessToken = async (req, res, next) => {
                 .json({ message: "Incorrect email or password" });
         }
 
-        const accessToken = await jwt.sign(user, process.env.JWT_SECRET);
+        const accessToken = jwt.sign(user, process.env.JWT_SECRET, {
+            expiresIn: "1h"
+        });
 
         res.status(201).json({
             message: "Access token created!",
