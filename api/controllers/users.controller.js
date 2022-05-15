@@ -47,8 +47,6 @@ exports.createUser = async (req, res, next) => {
             hash: hashedPassword
         });
 
-        console.log(user.dataValues);
-
         res.status(201).json({
             message: "User created!",
             user: {
