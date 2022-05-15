@@ -56,6 +56,11 @@ describe("POST /api/users", () => {
         });
         expect(response.status).toEqual(201);
         expect(response.body.message).toEqual("User created!");
+        expect(response.body.user.email).toEqual("johndoe@email.com");
+        expect(response.body.user.id).toBeDefined();
+        expect(response.body.user.createdAt).toBeDefined();
+        expect(response.body.user.updatedAt).toBeDefined();
+        expect(response.body.user.hash).not.toBeDefined();
     });
 
     test("Responds with a status of 409 if email already exists", async () => {

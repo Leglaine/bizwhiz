@@ -42,12 +42,22 @@ exports.createUser = async (req, res, next) => {
         const saltRounds = 10;
         const hashedPassword = await hash(password, saltRounds);
 
-        await db.User.create({
+        const user = await db.User.create({
             email: email,
             hash: hashedPassword
         });
 
-        res.status(201).json({ message: "User created!" });
+        console.log(user.dataValues);
+
+        res.status(201).json({
+            message: "User created!",
+            user: {
+                id: user.dataValues.id,
+                email: user.dataValues.email,
+                createdAt: user.dataValues.createdAt,
+                updatedAt: user.dataValues.updatedAt
+            }
+        });
     } catch (err) {
         next(err);
     }
