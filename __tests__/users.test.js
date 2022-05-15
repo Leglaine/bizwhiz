@@ -8,7 +8,7 @@ describe("POST /api/users", () => {
         await db.sequelize.close();
     });
 
-    test("Responds with a status of 400 if no email is provided", async () => {
+    test("Returns the correct response if no email is provided", async () => {
         const response = await request(app).post("/api/users").send({
             email: "",
             password: "123",
@@ -18,7 +18,7 @@ describe("POST /api/users", () => {
         expect(response.body.message).toEqual("Email is required");
     });
 
-    test("Responds with a status of 400 if no password is provided", async () => {
+    test("Returns the correct response if no password is provided", async () => {
         const response = await request(app).post("/api/users").send({
             email: "johndoe@email.com",
             password: "",
@@ -28,7 +28,7 @@ describe("POST /api/users", () => {
         expect(response.body.message).toEqual("Password is required");
     });
 
-    test("Responds with a status of 400 if no confirmation is provided", async () => {
+    test("Returns the correct response if no confirmation is provided", async () => {
         const response = await request(app).post("/api/users").send({
             email: "johndoe@email.com",
             password: "123",
@@ -38,7 +38,7 @@ describe("POST /api/users", () => {
         expect(response.body.message).toEqual("Confirmation is required");
     });
 
-    test("Responds with a status of 400 if confirmation fails", async () => {
+    test("Returns the correct response if confirmation fails", async () => {
         const response = await request(app).post("/api/users").send({
             email: "johndoe@email.com",
             password: "123",
@@ -48,7 +48,7 @@ describe("POST /api/users", () => {
         expect(response.body.message).toEqual("Password confirmation failed");
     });
 
-    test("Responds with a status of 201 on success", async () => {
+    test("Returns the correct response on success", async () => {
         const response = await request(app).post("/api/users").send({
             email: "johndoe@email.com",
             password: "123",
@@ -63,7 +63,7 @@ describe("POST /api/users", () => {
         expect(response.body.user.hash).not.toBeDefined();
     });
 
-    test("Responds with a status of 409 if email already exists", async () => {
+    test("Returns the correct response if email already exists", async () => {
         const response = await request(app).post("/api/users").send({
             email: "johndoe@email.com",
             password: "123",
