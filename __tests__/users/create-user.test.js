@@ -1,6 +1,6 @@
 const request = require("supertest");
-const app = require("../app");
-const db = require("../api/db/models");
+const app = require("../../app");
+const db = require("../../api/db/models");
 
 describe("POST /api/users", () => {
     afterAll(async () => {
