@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { compare } = require("bcrypt");
 const db = require("../db/models");
 
-exports.createAccessToken = async (req, res, next) => {
+exports.createTokens = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email) {
@@ -31,13 +31,16 @@ exports.createAccessToken = async (req, res, next) => {
                 .json({ message: "Incorrect email or password" });
         }
 
-        const accessToken = jwt.sign(user, process.env.JWT_SECRET, {
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "1h"
         });
 
+        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+
         res.status(201).json({
-            message: "Access token created!",
-            accessToken: accessToken
+            message: "Tokens created!",
+            accessToken: accessToken,
+            refreshToken: refreshToken
         });
     } catch (err) {
         next(err);

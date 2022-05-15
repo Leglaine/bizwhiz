@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const accessTokensRouter = require("./api/routers/access-tokens.router");
+const tokensRouter = require("./api/routers/tokens.router");
 const usersRouter = require("./api/routers/users.router");
 
 const app = express();
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== "test") {
 // Allow express to parse json requests
 app.use(express.json());
 
-app.use("/api/access-tokens", accessTokensRouter);
+app.use("/api/tokens", tokensRouter);
 app.use("/api/users", usersRouter);
 
 app.use((err, _req, res, _next) => {
