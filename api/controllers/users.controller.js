@@ -2,6 +2,9 @@ const db = require("../db/models");
 const { hash } = require("bcrypt");
 
 exports.searchUsers = async (req, res, next) => {
+    if (req.user.role !== "ADMIN") {
+        return res.status(403).json({ message: "Forbidden" });
+    }
     try {
         res.status(200).json({ sample: "List of users" });
     } catch (err) {
@@ -61,6 +64,8 @@ exports.createUser = async (req, res, next) => {
             message: "User created!",
             user: {
                 id: user.dataValues.id,
+                givenName: user.dataValues.given_name,
+                familyName: user.dataValues.family_name,
                 email: user.dataValues.email,
                 createdAt: user.dataValues.createdAt,
                 updatedAt: user.dataValues.updatedAt
