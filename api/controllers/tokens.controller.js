@@ -99,6 +99,12 @@ exports.deleteRefreshToken = async (req, res, next) => {
         return res.status(400).json({ message: "Refresh token required" });
     }
 
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return res.status(400).json({ message: "Invalid refresh token" });
+        }
+    });
+
     try {
         await db.Token.destroy({ where: { token: refreshToken } });
         res.status(200).json({ message: "Refresh token deleted!" });
