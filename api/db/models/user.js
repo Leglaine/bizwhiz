@@ -14,14 +14,32 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 defaultValue: DataTypes.UUIDV4
             },
+            given_name: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            family_name: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
             email: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true
             },
             hash: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 allowNull: false
+            },
+            is_verified: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
+            },
+            role: {
+                type: DataTypes.ENUM("BASIC", "ADMIN"),
+                allowNull: false,
+                defaultValue: "BASIC"
             }
         },
         {

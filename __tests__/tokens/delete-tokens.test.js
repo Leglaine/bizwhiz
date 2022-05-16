@@ -13,6 +13,8 @@ describe("DELETE /api/tokens", () => {
         const saltRounds = 10;
         const hashedPassword = await hash("123", saltRounds);
         await db.User.create({
+            given_name: "John",
+            family_name: "Doe",
             email: "johndoe@email.com",
             hash: hashedPassword
         });

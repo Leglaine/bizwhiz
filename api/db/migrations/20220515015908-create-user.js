@@ -8,14 +8,32 @@ module.exports = {
                 primaryKey: true,
                 defaultValue: Sequelize.UUIDV4
             },
+            given_name: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
+            family_name: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
             email: {
                 type: Sequelize.STRING,
                 allowNull: false,
                 unique: true
             },
             hash: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
                 allowNull: false
+            },
+            is_verified: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
+            },
+            role: {
+                type: Sequelize.ENUM("BASIC", "ADMIN"),
+                allowNull: false,
+                defaultValue: "BASIC"
             },
             created_at: {
                 allowNull: false,

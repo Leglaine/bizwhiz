@@ -10,7 +10,15 @@ exports.searchUsers = async (req, res, next) => {
 };
 
 exports.createUser = async (req, res, next) => {
-    const { email, password, confirmation } = req.body;
+    const { givenName, familyName, email, password, confirmation } = req.body;
+
+    if (!givenName) {
+        return res.status(400).json({ message: "Given name is required" });
+    }
+
+    if (!familyName) {
+        return res.status(400).json({ message: "Family name is required" });
+    }
 
     if (!email) {
         return res.status(400).json({ message: "Email is required" });
@@ -43,6 +51,8 @@ exports.createUser = async (req, res, next) => {
         const hashedPassword = await hash(password, saltRounds);
 
         const user = await db.User.create({
+            given_name: givenName,
+            family_name: familyName,
             email: email,
             hash: hashedPassword
         });
