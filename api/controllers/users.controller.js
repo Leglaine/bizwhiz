@@ -1,6 +1,7 @@
 const db = require("../db/models");
 const { sendVerificationEmail } = require("../services/email");
 const { generateHexCode, hashPassword } = require("../services/cryptography");
+const { requireFields } = require("../services/require-fields");
 
 exports.searchUsers = async (req, res, next) => {
     if (req.user.role !== "ADMIN") {
@@ -16,24 +17,18 @@ exports.searchUsers = async (req, res, next) => {
 exports.createUser = async (req, res, next) => {
     const { givenName, familyName, email, password, confirmation } = req.body;
 
-    if (!givenName) {
-        return res.status(400).json({ message: "Given name is required" });
-    }
+    const missingFields = requireFields({
+        givenName,
+        familyName,
+        email,
+        password,
+        confirmation
+    });
 
-    if (!familyName) {
-        return res.status(400).json({ message: "Family name is required" });
-    }
-
-    if (!email) {
-        return res.status(400).json({ message: "Email is required" });
-    }
-
-    if (!password) {
-        return res.status(400).json({ message: "Password is required" });
-    }
-
-    if (!confirmation) {
-        return res.status(400).json({ message: "Confirmation is required" });
+    if (missingFields.length > 0) {
+        return res.status(400).json({
+            message: `Missing required fields: ${missingFields.join(", ")}`
+        });
     }
 
     if (confirmation !== password) {

@@ -22,7 +22,9 @@ describe("POST /api/users", () => {
             confirmation: "123"
         });
         expect(response.status).toEqual(400);
-        expect(response.body.message).toEqual("Given name is required");
+        expect(response.body.message).toEqual(
+            "Missing required fields: givenName"
+        );
     });
 
     test("Returns the correct response if no family name is provided", async () => {
@@ -34,7 +36,9 @@ describe("POST /api/users", () => {
             confirmation: "123"
         });
         expect(response.status).toEqual(400);
-        expect(response.body.message).toEqual("Family name is required");
+        expect(response.body.message).toEqual(
+            "Missing required fields: familyName"
+        );
     });
 
     test("Returns the correct response if no email is provided", async () => {
@@ -46,7 +50,7 @@ describe("POST /api/users", () => {
             confirmation: "123"
         });
         expect(response.status).toEqual(400);
-        expect(response.body.message).toEqual("Email is required");
+        expect(response.body.message).toEqual("Missing required fields: email");
     });
 
     test("Returns the correct response if no password is provided", async () => {
@@ -58,7 +62,9 @@ describe("POST /api/users", () => {
             confirmation: "123"
         });
         expect(response.status).toEqual(400);
-        expect(response.body.message).toEqual("Password is required");
+        expect(response.body.message).toEqual(
+            "Missing required fields: password"
+        );
     });
 
     test("Returns the correct response if no confirmation is provided", async () => {
@@ -70,7 +76,9 @@ describe("POST /api/users", () => {
             confirmation: ""
         });
         expect(response.status).toEqual(400);
-        expect(response.body.message).toEqual("Confirmation is required");
+        expect(response.body.message).toEqual(
+            "Missing required fields: confirmation"
+        );
     });
 
     test("Returns the correct response if confirmation fails", async () => {
