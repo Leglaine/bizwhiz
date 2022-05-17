@@ -80,6 +80,12 @@ exports.createUser = async (req, res, next) => {
 
         if (process.env.NODE_ENV !== "test") {
             const code = generateVerificationCode();
+
+            await db.VerificationCode.create({
+                user_id: user.dataValues.id,
+                code: code
+            });
+
             await sendVerificationEmail(email, code);
         }
     } catch (err) {
@@ -106,6 +112,33 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
     try {
         res.status(200).json({ sample: "User deleted!" });
+    } catch (err) {
+        next(err);
+    }
+};
+
+exports.verifyUser = async (req, res, next) => {
+    const { code } = req.params;
+
+    try {
+        const result = await db.VerificationCode.findOne({
+            where: { code: code }
+        });
+
+        if (!result) {
+            return res
+                .status(400)
+                .json({ message: "Invalid verification code" });
+        }
+
+        await db.User.update(
+            { is_verified: true },
+            { where: { id: result.dataValues.user_id } }
+        );
+
+        await db.VerificationCode.destroy({ where: { code: code } });
+
+        res.status(200).json({ message: "Verification successful!" });
     } catch (err) {
         next(err);
     }
