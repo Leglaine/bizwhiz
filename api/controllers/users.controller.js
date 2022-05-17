@@ -1,11 +1,6 @@
 const db = require("../db/models");
-const { hash } = require("bcrypt");
 const { sendVerificationEmail } = require("../services/email");
-const crypto = require("crypto");
-
-function generateVerificationCode() {
-    return crypto.randomBytes(32).toString("hex");
-}
+const { generateHexCode, hashPassword } = require("../services/cryptography");
 
 exports.searchUsers = async (req, res, next) => {
     if (req.user.role !== "ADMIN") {
@@ -56,8 +51,7 @@ exports.createUser = async (req, res, next) => {
                 .json({ message: "A user with that email already exists" });
         }
 
-        const saltRounds = 10;
-        const hashedPassword = await hash(password, saltRounds);
+        const hashedPassword = await hashPassword(password);
 
         const user = await db.User.create({
             given_name: givenName,
@@ -79,7 +73,7 @@ exports.createUser = async (req, res, next) => {
         });
 
         if (process.env.NODE_ENV !== "test") {
-            const code = generateVerificationCode();
+            const code = generateHexCode(32);
 
             await db.VerificationCode.create({
                 user_id: user.dataValues.id,
