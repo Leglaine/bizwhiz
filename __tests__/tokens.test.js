@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const request = require("supertest");
 const { hash } = require("bcrypt");
 const app = require("../app");
