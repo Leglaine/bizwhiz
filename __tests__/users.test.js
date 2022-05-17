@@ -1,18 +1,18 @@
 const request = require("supertest");
-const app = require("../../app");
-const db = require("../../api/db/models");
+const app = require("../app");
+const db = require("../api/db/models");
+
+beforeAll(async () => {
+    // Protect tests against improper teardown
+    await db.User.destroy({ where: {} });
+});
+
+afterAll(async () => {
+    await db.User.destroy({ where: {} });
+    await db.sequelize.close();
+});
 
 describe("POST /api/users", () => {
-    // Protect tests from improper teardown
-    beforeAll(async () => {
-        await db.User.destroy({ where: {} });
-    });
-
-    afterAll(async () => {
-        await db.User.destroy({ where: {} });
-        await db.sequelize.close();
-    });
-
     test("Returns the correct response if no given name is provided", async () => {
         const response = await request(app).post("/api/users").send({
             givenName: "",
@@ -115,4 +115,15 @@ describe("POST /api/users", () => {
             "A user with that email already exists"
         );
     });
+});
+
+describe("GET /api/users/verify/:code", () => {
+    test("Returns the correct response if the verification code is invalid", async () => {
+        const response = await request(app).get(
+            "/api/users/verify/ftfthgfhfthf"
+        );
+        expect(response.status).toEqual(400);
+        expect(response.body.message).toEqual("Invalid verification code");
+    });
+    // NOTE: Successful verification may need to be tested manually
 });
