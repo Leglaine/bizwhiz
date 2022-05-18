@@ -9,39 +9,39 @@ module.exports = (sequelize, DataTypes) => {
     }
     Contact.init({
         id: {
-          type: DataTypes.UUID,
-          allowNull: false,
-          primaryKey: true,
-          defaultValue: DataTypes.UUIDV4
+            type: DataTypes.UUID,
+            allowNull: false,
+            primaryKey: true,
+            defaultValue: DataTypes.UUIDV4
         },
         parent_id: {
-          type: DataTypes.UUID,
-          references: {
-            model: {
-              tableName: "contacts"
-            },
-            key: "id"
-          }
+            type: DataTypes.UUID,
+            references: {
+                model: {
+                    tableName: "contacts"
+                },
+                key: "id"
+            }
         },
         is_company: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: false
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         },
         is_client: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: false
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         },
         is_vendor: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: false
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         },
         is_advisor: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: false
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         },
         title: DataTypes.STRING,
         given_name: DataTypes.STRING,
@@ -51,9 +51,9 @@ module.exports = (sequelize, DataTypes) => {
         company_name: DataTypes.STRING,
         job_title: DataTypes.STRING,
         display_name: {
-          type: DataTypes.STRING,
-          allowNull: false,
-          unique: true
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
         },
         email: DataTypes.STRING,
         phone: DataTypes.STRING,

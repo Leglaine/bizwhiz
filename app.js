@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 
+const contactsRouter = require("./api/routers/contacts.router");
 const tokensRouter = require("./api/routers/tokens.router");
 const usersRouter = require("./api/routers/users.router");
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/api/tokens", tokensRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/contacts", contactsRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, _req, res, _next) => {
