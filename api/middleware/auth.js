@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-const requireAuth = (req, res, next) => {
+function requireAuth(req, res, next) {
     const authHeader = req.headers["authorization"];
+
+    // Make sure authorization header exists and separate token from prefix
     const accessToken = authHeader && authHeader.split(" ")[1];
 
     if (!accessToken) {
@@ -17,4 +19,13 @@ const requireAuth = (req, res, next) => {
     });
 };
 
-module.exports = { requireAuth };
+function checkRole(role) {
+    return (req, res, next) => {
+        if (req.user.role !== role) {
+            return res.status(403).json({ message: "Forbidden" });
+        }
+        next();
+    }
+}
+
+module.exports = { requireAuth, checkRole };

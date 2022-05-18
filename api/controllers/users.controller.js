@@ -4,10 +4,6 @@ const { generateHexCode, hashPassword } = require("../services/cryptography");
 const { requireFields } = require("../services/require-fields");
 
 exports.searchUsers = async (req, res, next) => {
-    if (req.user.role !== "ADMIN") {
-        return res.status(403).json({ message: "Forbidden" });
-    }
-
     try {
         const result = await db.User.findAll({ where: req.query });
         res.status(200).json(result);

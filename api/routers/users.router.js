@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const controller = require("../controllers/users.controller");
-const { requireAuth } = require("../middleware/require-auth");
+const { requireAuth, checkRole } = require("../middleware/auth");
 
-router.get("/", requireAuth, controller.searchUsers);
+router.get("/", requireAuth, checkRole("ADMIN"), controller.searchUsers);
 router.post("/", controller.createUser);
 router.get("/:id", controller.getUserById);
 router.patch("/:id", controller.updateUser);
