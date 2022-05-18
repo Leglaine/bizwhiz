@@ -17,7 +17,7 @@ function requireAuth(req, res, next) {
         req.user = user;
         next();
     });
-};
+}
 
 function checkRole(role) {
     return (req, res, next) => {
@@ -25,7 +25,7 @@ function checkRole(role) {
             return res.status(403).json({ message: "Forbidden" });
         }
         next();
-    }
+    };
 }
 
 module.exports = { requireAuth, checkRole };
