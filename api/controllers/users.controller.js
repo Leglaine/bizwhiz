@@ -7,8 +7,10 @@ exports.searchUsers = async (req, res, next) => {
     if (req.user.role !== "ADMIN") {
         return res.status(403).json({ message: "Forbidden" });
     }
+
     try {
-        res.status(200).json({ sample: "List of users" });
+        const result = await db.User.findAll({ where: req.query });
+        res.status(200).json(result);
     } catch (err) {
         next(err);
     }
@@ -83,14 +85,21 @@ exports.createUser = async (req, res, next) => {
 };
 
 exports.getUserById = async (req, res, next) => {
+    // TODO: Authorization
+    const { id } = req.params;
     try {
-        res.status(200).json({ sample: "User details" });
+        const result = await db.User.findOne({ where: { id: id } });
+        const user = result.dataValues;
+        res.status(200).json(user);
     } catch (err) {
         next(err);
     }
 };
 
 exports.updateUser = async (req, res, next) => {
+    // TODO: Authorization
+    // const { id } = req.params;
+    // const {} = req.body;
     try {
         res.status(200).json({ sample: "User updated!" });
     } catch (err) {
@@ -99,8 +108,11 @@ exports.updateUser = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
+    // TODO: Authorization
+    const { id } = req.params;
     try {
-        res.status(200).json({ sample: "User deleted!" });
+        await db.User.destroy({ where: { id: id } });
+        res.status(200).json({ message: "User deleted!" });
     } catch (err) {
         next(err);
     }
