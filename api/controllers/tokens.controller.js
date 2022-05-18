@@ -11,14 +11,6 @@ function generateAccessToken(user) {
 exports.createTokens = async (req, res, next) => {
     const { email, password } = req.body;
 
-    if (!email) {
-        return res.status(400).json({ message: "Email is required" });
-    }
-
-    if (!password) {
-        return res.status(400).json({ message: "Password is required" });
-    }
-
     try {
         const result = await db.User.findOne({ where: { email: email } });
 

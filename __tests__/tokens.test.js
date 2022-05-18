@@ -34,7 +34,7 @@ describe("POST /api/tokens", () => {
             password: "123"
         });
         expect(response.status).toEqual(400);
-        expect(response.body.message).toEqual("Email is required");
+        expect(response.body.message).toEqual("Missing required fields: email");
     });
 
     test("Returns the correct response if no password is provided", async () => {
@@ -43,7 +43,7 @@ describe("POST /api/tokens", () => {
             password: ""
         });
         expect(response.status).toEqual(400);
-        expect(response.body.message).toEqual("Password is required");
+        expect(response.body.message).toEqual("Missing required fields: password");
     });
 
     test("Returns the correct response if email is incorrect", async () => {
