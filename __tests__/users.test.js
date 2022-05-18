@@ -161,19 +161,25 @@ describe("GET /api/users", () => {
     });
 
     test("Returns the correct response if access token is invalid", async () => {
-        const response = await request(app).get("/api/users").set("Authorization", "Bearer jkbdbbjbjb");
+        const response = await request(app)
+            .get("/api/users")
+            .set("Authorization", "Bearer jkbdbbjbjb");
         expect(response.status).toEqual(401);
         expect(response.body.message).toEqual("Invalid access token");
     });
 
     test("Returns the correct response if user is not authorized", async () => {
-        const response = await request(app).get("/api/users").set("Authorization", `Bearer ${basicAccessToken}`);
+        const response = await request(app)
+            .get("/api/users")
+            .set("Authorization", `Bearer ${basicAccessToken}`);
         expect(response.status).toEqual(403);
         expect(response.body.message).toEqual("Forbidden");
     });
 
     test("Returns the correct response on success", async () => {
-        const response = await request(app).get("/api/users").set("Authorization", `Bearer ${adminAccessToken}`);
+        const response = await request(app)
+            .get("/api/users")
+            .set("Authorization", `Bearer ${adminAccessToken}`);
         expect(response.status).toEqual(200);
         expect(response.body.length).toBeGreaterThan(0);
     });
