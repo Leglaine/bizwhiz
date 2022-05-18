@@ -1,7 +1,6 @@
 const db = require("../db/models");
 const { sendVerificationEmail } = require("../services/email");
 const { generateHexCode, hashPassword } = require("../services/cryptography");
-const { requireFields } = require("../services/require-fields");
 
 exports.searchUsers = async (req, res, next) => {
     try {
@@ -14,20 +13,6 @@ exports.searchUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
     const { givenName, familyName, email, password, confirmation } = req.body;
-
-    const missingFields = requireFields({
-        givenName,
-        familyName,
-        email,
-        password,
-        confirmation
-    });
-
-    if (missingFields.length > 0) {
-        return res.status(400).json({
-            message: `Missing required fields: ${missingFields.join(", ")}`
-        });
-    }
 
     if (confirmation !== password) {
         return res
