@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const request = require("supertest");
+const { hash } = require("bcrypt");
 const app = require("../app");
 const db = require("../api/db/models");
 
@@ -126,6 +127,58 @@ describe("POST /api/users", () => {
     });
 });
 
+describe("GET /api/users", () => {
+    let basicAccessToken;
+    let adminAccessToken;
+
+    beforeAll(async () => {
+        const basicResponse = await request(app).post("/api/tokens").send({
+            email: "johndoe@email.com",
+            password: "123"
+        });
+        basicAccessToken = basicResponse.body.accessToken;
+
+        const hashedPassword = await hash("123", 10);
+        await db.User.create({
+            given_name: "Jane",
+            family_name: "Doe",
+            email: "janedoe@email.com",
+            hash: hashedPassword,
+            role: "ADMIN"
+        });
+
+        const adminResponse = await request(app).post("/api/tokens").send({
+            email: "janedoe@email.com",
+            password: "123"
+        });
+        adminAccessToken = adminResponse.body.accessToken;
+    });
+
+    test("Returns the correct response if no access token is provided", async () => {
+        const response = await request(app).get("/api/users");
+        expect(response.status).toEqual(401);
+        expect(response.body.message).toEqual("Access token required");
+    });
+
+    test("Returns the correct response if access token is invalid", async () => {
+        const response = await request(app).get("/api/users").set("Authorization", "Bearer jkbdbbjbjb");
+        expect(response.status).toEqual(401);
+        expect(response.body.message).toEqual("Invalid access token");
+    });
+
+    test("Returns the correct response if user is not authorized", async () => {
+        const response = await request(app).get("/api/users").set("Authorization", `Bearer ${basicAccessToken}`);
+        expect(response.status).toEqual(403);
+        expect(response.body.message).toEqual("Forbidden");
+    });
+
+    test("Returns the correct response on success", async () => {
+        const response = await request(app).get("/api/users").set("Authorization", `Bearer ${adminAccessToken}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.length).toBeGreaterThan(0);
+    });
+});
+
 describe("GET /api/users/verify/:code", () => {
     test("Returns the correct response if the verification code is invalid", async () => {
         const response = await request(app).get(
@@ -136,3 +189,8 @@ describe("GET /api/users/verify/:code", () => {
     });
     // NOTE: Successful verification may need to be tested manually
 });
+
+// TODO: Test searchUsers
+// TODO: Test getUserById
+// TODO: Test updateUser
+// TODO: Test deleteUser
