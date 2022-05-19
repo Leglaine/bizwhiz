@@ -31,11 +31,16 @@ function generateRefreshToken(user) {
     return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
 }
 
+function validateRefreshToken(refreshToken, callback) {
+    return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, callback);
+}
+
 module.exports = {
     generateHexCode,
     hashPassword,
     validatePassword,
     generateAccessToken,
     validateAccessToken,
-    generateRefreshToken
+    generateRefreshToken,
+    validateRefreshToken
 };
