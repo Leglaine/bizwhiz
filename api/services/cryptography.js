@@ -12,6 +12,11 @@ async function hashPassword(password) {
     return hashedPassword;
 }
 
+async function validatePassword(password, hash) {
+    const isCorrectPassword = await bcrypt.compare(password, hash);
+    return isCorrectPassword;
+}
+
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "10m"
@@ -25,6 +30,7 @@ function generateRefreshToken(user) {
 module.exports = {
     generateHexCode,
     hashPassword,
+    validatePassword,
     generateAccessToken,
     generateRefreshToken
 };

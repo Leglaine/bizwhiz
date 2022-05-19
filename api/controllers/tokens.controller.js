@@ -1,7 +1,11 @@
 const jwt = require("jsonwebtoken");
-const { compare } = require("bcrypt");
 const db = require("../db/models");
-const { generateAccessToken, generateRefreshToken } = require("../services/cryptography");
+
+const {
+    generateAccessToken,
+    generateRefreshToken,
+    validatePassword
+} = require("../services/cryptography");
 
 exports.createTokens = async (req, res, next) => {
     const { email, password } = req.body;
@@ -16,9 +20,9 @@ exports.createTokens = async (req, res, next) => {
         }
 
         const user = result.dataValues;
-        const passwordIsCorrect = await compare(password, user.hash);
+        const isCorrectPassword = await validatePassword(password, user.hash);
 
-        if (!passwordIsCorrect) {
+        if (!isCorrectPassword) {
             return res
                 .status(400)
                 .json({ message: "Incorrect email or password" });
