@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+const { validateAccessToken } = require("../services/cryptography");
 
 function requireAuth(req, res, next) {
     const authHeader = req.headers["authorization"];
@@ -10,7 +10,7 @@ function requireAuth(req, res, next) {
         return res.status(401).json({ message: "Access token required" });
     }
 
-    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    validateAccessToken(accessToken, (err, user) => {
         if (err) {
             return res.status(401).json({ message: "Invalid access token" });
         }
