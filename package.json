@@ -2,7 +2,7 @@
     "name": "bizwhiz",
     "version": "1.0.0",
     "description": "A business management app",
-    "main": "server.js",
+    "main": "app.js",
     "author": "Lexi Wright",
     "license": "MIT",
     "private": true,
@@ -11,13 +11,12 @@
         "url": "https://github.com/Leglaine/bizwhiz"
     },
     "scripts": {
-        "start": "node server.js",
-        "dev": "nodemon -r dotenv/config server.js",
+        "start": "node scripts/start.js",
+        "dev": "nodemon scripts/start.js",
         "test": "jest --runInBand --silent",
         "test:int": "jest integration --runInBand --silent",
         "test:unit": "jest unit",
-        "lint": "eslint -c config/.eslintrc.json ./",
-        "db:testConn": "node scripts/db-test-connection.js"
+        "lint": "eslint -c config/.eslintrc.json ./"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",
