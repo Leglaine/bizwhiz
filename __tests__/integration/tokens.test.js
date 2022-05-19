@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 const request = require("supertest");
 const { hash } = require("bcrypt");
-const app = require("../app");
-const db = require("../api/db/models");
+const app = require("../../app");
+const db = require("../../api/db/models");
 
 let refreshToken;
 
