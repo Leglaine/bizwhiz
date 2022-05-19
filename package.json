@@ -16,7 +16,6 @@
         "test": "jest --runInBand --silent",
         "test:int": "jest integration --runInBand --silent",
         "test:unit": "jest unit",
-        "coverage": "jest --runInBand --silent --coverage && coveralls < coverage/lcov.info",
         "lint": "eslint -c config/.eslintrc.json ./",
         "db:testConn": "node scripts/db-test-connection.js"
     },
