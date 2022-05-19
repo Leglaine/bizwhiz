@@ -1,12 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { compare } = require("bcrypt");
 const db = require("../db/models");
-
-function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "10m"
-    });
-}
+const { generateAccessToken, generateRefreshToken } = require("../services/cryptography");
 
 exports.createTokens = async (req, res, next) => {
     const { email, password } = req.body;
@@ -30,8 +25,7 @@ exports.createTokens = async (req, res, next) => {
         }
 
         const accessToken = generateAccessToken(user);
-
-        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+        const refreshToken = generateRefreshToken(user);
 
         await db.Token.create({
             token: refreshToken

@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 function generateHexCode(length) {
     return crypto.randomBytes(length).toString("hex");
@@ -11,4 +12,19 @@ async function hashPassword(password) {
     return hashedPassword;
 }
 
-module.exports = { generateHexCode, hashPassword };
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "10m"
+    });
+}
+
+function generateRefreshToken(user) {
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+}
+
+module.exports = {
+    generateHexCode,
+    hashPassword,
+    generateAccessToken,
+    generateRefreshToken
+};
