@@ -4,6 +4,8 @@ const { hash } = require("bcrypt");
 const app = require("../../app");
 const db = require("../../api/db/models");
 
+let userId;
+
 beforeAll(async () => {
     // Protect tests against improper teardown
     await db.User.destroy({ where: {} });
@@ -110,6 +112,7 @@ describe("POST /api/users", () => {
         expect(response.body.user.createdAt).toBeDefined();
         expect(response.body.user.updatedAt).toBeDefined();
         expect(response.body.user.hash).not.toBeDefined();
+        userId = response.body.user.id;
     });
 
     test("Returns the correct response if email already exists", async () => {
@@ -185,6 +188,13 @@ describe("GET /api/users", () => {
     });
 });
 
+describe("GET /api/users/:id", () => {
+    test("Returns the correct response on success", async () => {
+        const response = await request(app).get(`/api/users/${userId}`);
+        expect(response.status).toEqual(200);
+    });
+});
+
 describe("GET /api/users/verify/:code", () => {
     test("Returns the correct response if the verification code is invalid", async () => {
         const response = await request(app).get(
@@ -196,7 +206,11 @@ describe("GET /api/users/verify/:code", () => {
     // NOTE: Successful verification may need to be tested manually
 });
 
-// TODO: Test searchUsers
-// TODO: Test getUserById
+describe("DELETE /api/users/:id", () => {
+    test("Returns the correct response on success", async () => {
+        const response = await request(app).delete(`/api/users/${userId}`);
+        expect(response.status).toEqual(200);
+    });
+});
+
 // TODO: Test updateUser
-// TODO: Test deleteUser
