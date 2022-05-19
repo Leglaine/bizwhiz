@@ -7,6 +7,9 @@
     "license": "MIT",
     "private": true,
     "keywords": [],
+    "repository": {
+        "url": "https://github.com/Leglaine/bizwhiz"
+    },
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon -r dotenv/config server.js",
