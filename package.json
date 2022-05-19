@@ -13,6 +13,7 @@
         "test": "jest --runInBand --silent",
         "test:int": "jest integration --runInBand --silent",
         "test:unit": "jest unit",
+        "coverage": "jest --runInBand --silent --coverage && coveralls < coverage/lcov.info",
         "lint": "eslint -c config/.eslintrc.json ./",
         "db:testConn": "node scripts/db-test-connection.js"
     },
@@ -27,6 +28,7 @@
         "sequelize": "^6.19.0"
     },
     "devDependencies": {
+        "coveralls": "^3.1.1",
         "dotenv": "^16.0.1",
         "eslint": "^8.15.0",
         "jest": "^28.1.0",
