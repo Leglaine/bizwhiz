@@ -23,6 +23,10 @@ function generateAccessToken(user) {
     });
 }
 
+function validateAccessToken(accessToken, callback) {
+    return jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, callback);
+}
+
 function generateRefreshToken(user) {
     return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
 }
@@ -32,5 +36,6 @@ module.exports = {
     hashPassword,
     validatePassword,
     generateAccessToken,
+    validateAccessToken,
     generateRefreshToken
 };
