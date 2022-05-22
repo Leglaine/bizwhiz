@@ -196,6 +196,25 @@ describe("GET /api/users/:id", () => {
 });
 
 describe("GET /api/users/verify/:code", () => {
+    let bobId;
+
+    beforeAll(async () => {
+        const hashedPassword = await hash("123", 10);
+        const result = await db.User.create({
+            given_name: "Bob",
+            family_name: "Smith",
+            email: "bobsmith@email.com",
+            hash: hashedPassword
+        });
+
+        bobId = result.dataValues.id;
+
+        await db.VerificationCode.create({
+            user_id: bobId,
+            code: "123456"
+        });
+    });
+
     test("Returns the correct response if the verification code is invalid", async () => {
         const response = await request(app).get(
             "/api/users/verify/ftfthgfhfthf"
@@ -203,7 +222,22 @@ describe("GET /api/users/verify/:code", () => {
         expect(response.status).toEqual(400);
         expect(response.body.message).toEqual("Invalid verification code");
     });
-    // NOTE: Successful verification may need to be tested manually
+
+    test("User is not verified", async () => {
+        const result = await db.User.findOne({ where: { id: bobId } });
+        expect(result.dataValues.is_verified).toEqual(false);
+    });
+
+    test("Returns the correct response on success", async () => {
+        const response = await request(app).get("/api/users/verify/123456");
+        expect(response.status).toEqual(200);
+        expect(response.body.message).toEqual("Verification successful!");
+    });
+
+    test("User is verified", async () => {
+        const result = await db.User.findOne({ where: { id: bobId } });
+        expect(result.dataValues.is_verified).toEqual(true);
+    });
 });
 
 describe("DELETE /api/users/:id", () => {
