@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 module.exports = {
     development: {
         username: process.env.DATABASE_USERNAME,
@@ -13,6 +11,10 @@ module.exports = {
         password: process.env.DATABASE_PASSWORD,
         database: "bizwhiz-test",
         host: "localhost",
+        dialect: "postgres"
+    },
+    staging: {
+        use_env_variable: process.env.DATABASE_URL,
         dialect: "postgres"
     }
 };
