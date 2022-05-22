@@ -1,3 +1,10 @@
+if (
+    process.env.NODE_ENV !== "production" ||
+    process.env.NODE_ENV !== "staging"
+) {
+    require("dotenv").config();
+}
+
 module.exports = {
     development: {
         username: process.env.DATABASE_USERNAME,
