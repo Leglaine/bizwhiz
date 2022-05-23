@@ -22,6 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm ci
+      - run: npm run dev
       # Run tests and generate the lcov.info file
       - run: npm test
 
