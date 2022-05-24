@@ -1,20 +1,23 @@
 "use strict";
 
-const { hash } = require("bcrypt");
+const { hashPassword } = require("../../services/cryptography");
 const { v4 } = require("uuid");
+
+const { ADMIN_GIVEN_NAME, ADMIN_FAMILY_NAME, ADMIN_EMAIL, ADMIN_PASSWORD } =
+    process.env;
 
 module.exports = {
     async up(queryInterface, Sequelize) {
-        const adminPassword = await hash(process.env.ADMIN_PASSWORD, 10);
+        const adminHash = await hashPassword(ADMIN_PASSWORD);
         await queryInterface.bulkInsert(
             "users",
             [
                 {
                     id: v4(),
-                    given_name: "Lexi",
-                    family_name: "Wright",
-                    email: "ehdubya@hotmail.com",
-                    hash: adminPassword,
+                    given_name: ADMIN_GIVEN_NAME,
+                    family_name: ADMIN_FAMILY_NAME,
+                    email: ADMIN_EMAIL,
+                    hash: adminHash,
                     is_verified: true,
                     role: "ADMIN",
                     created_at: new Date(),
@@ -26,10 +29,6 @@ module.exports = {
     },
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.bulkDelete(
-            "users",
-            { email: "ehdubya@hotmail.com" },
-            {}
-        );
+        await queryInterface.bulkDelete("users", { email: ADMIN_EMAIL }, {});
     }
 };
