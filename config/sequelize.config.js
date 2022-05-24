@@ -7,22 +7,18 @@ if (
 
 module.exports = {
     development: {
-        username: process.env.DATABASE_USERNAME,
-        password: process.env.DATABASE_PASSWORD,
-        database: "bizwhiz-dev",
-        host: "localhost",
-        dialect: "postgres"
+        use_env_variable: "DATABASE_URL",
+        dialect: "postgres",
+        seederStorage: "sequelize"
     },
     test: {
-        username: process.env.DATABASE_USERNAME,
-        password: process.env.DATABASE_PASSWORD,
-        database: "bizwhiz-test",
-        host: "localhost",
+        use_env_variable: "TEST_DATABASE_URL",
         dialect: "postgres"
     },
     staging: {
         use_env_variable: "DATABASE_URL",
         dialect: "postgres",
+        seederStorage: "sequelize",
         dialectOptions: {
             ssl: {
                 require: true,
