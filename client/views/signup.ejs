@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="/public/js/submit-signup.js" defer></script>
+        <link rel="stylesheet" href="/public/css/style.css" />
+        <title>Sign Up | BizWhiz</title>
+    </head>
+    <body>
+        <%- include("partials/header") %>
+        <h1>Sign Up</h1>
+        <p id="message"></p>
+        <form id="signup-form">
+            <input
+                type="text"
+                id="given-name"
+                placeholder="First Name"
+                required
+            />
+            <input
+                type="text"
+                id="family-name"
+                placeholder="Last Name"
+                required
+            />
+            <input type="email" id="email" placeholder="Email" required />
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            />
+            <input
+                type="password"
+                id="confirmation"
+                placeholder="Confirm Password"
+                required
+            />
+            <button>Submit</button>
+        </form>
+        <p>Already have an account? <a href="/login">Log In</a></p>
+    </body>
+</html>
