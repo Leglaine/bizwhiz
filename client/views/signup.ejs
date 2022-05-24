@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="/public/js/submit-signup.js" defer></script>
         <link rel="stylesheet" href="/public/css/style.css" />
+        <link rel="stylesheet" href="/public/css/signup.css" />
         <title>Sign Up | BizWhiz</title>
     </head>
     <body>
@@ -40,6 +41,9 @@
             />
             <button>Submit</button>
         </form>
-        <p>Already have an account? <a href="/login">Log In</a></p>
+        <p id="login-link">
+            Already have an account? <a href="/login">Log In</a>
+        </p>
+        <%- include("partials/footer") %>
     </body>
 </html>

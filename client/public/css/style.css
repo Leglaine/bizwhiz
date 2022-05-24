@@ -3,6 +3,9 @@
 
 :root {
     --text-size: 1rem;
+    --header-height: 60px;
+    --primary: #800080;
+    --secondary: #2274A5;
 }
 
 * {
@@ -13,10 +16,12 @@
 }
 
 h1 {
-    margin-top: 60px;
+    margin-top: calc(var(--header-height) + 10px);
+    margin-bottom: 10px;
     font-family: "Paprika";
     font-size: calc(var(--text-size) * 2.25);
     text-align: center;
+    color: var(--secondary);
 }
 
 h2 {
@@ -48,11 +53,35 @@ p {
     font-size: var(--text-size);
 }
 
+button {
+    background-color: var(--secondary);
+    font-weight: bold;
+    color: white;
+}
+
 header {
     position: fixed;
     top: 0;
     width: 100vw;
-    height: 60px;
-    background-color: purple;
+    height: var(--header-height);
+    background-color: var(--primary);
     color: white;
+}
+
+#menu-icon {
+    float: right;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    background-color: var(--primary);
+    color: white;
+}
+
+footer p {
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 5px;
 }
