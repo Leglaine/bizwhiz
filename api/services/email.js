@@ -1,14 +1,15 @@
 const nodemailer = require("nodemailer");
+const { NODE_ENV, EMAIL_USERNAME, EMAIL_PASSWORD, BASE_URL } = process.env;
 
 let transporter;
 
-if (process.env.NODE_ENV === "production") {
+if (NODE_ENV === "production") {
     transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         port: 587,
         auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD
+            user: EMAIL_USERNAME,
+            pass: EMAIL_PASSWORD
         }
     });
 } else {
@@ -31,11 +32,27 @@ async function sendVerificationEmail(email, code) {
         from: "bizwhiz@noreply.com",
         to: email,
         subject: "Please verify your email",
-        html: `<a href="${process.env.BASE_URL}/api/users/verify/${code}">Verify</a>`
+        html: `<a href="${BASE_URL}/api/users/verify/${code}">Verify</a>`
     });
 
-    console.log(`Message sent: ${info.messageId}`);
-    console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+    if (NODE_ENV !== "production") {
+        console.log(`Message sent: ${info.messageId}`);
+        console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+    }
 }
 
-module.exports = { sendVerificationEmail };
+async function sendNewPassword(email, newPassword) {
+    const info = await transporter.sendMail({
+        from: "bizwhiz@noreply.com",
+        to: email,
+        subject: "Your password has been reset",
+        html: `<p>Your new password is: ${newPassword}</p>`
+    });
+
+    if (NODE_ENV !== "production") {
+        console.log(`Message sent: ${info.messageId}`);
+        console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+    }
+}
+
+module.exports = { sendVerificationEmail, sendNewPassword };

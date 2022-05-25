@@ -1,5 +1,5 @@
 const db = require("../db/models");
-const { sendVerificationEmail } = require("../services/email");
+const { sendVerificationEmail, sendNewPassword } = require("../services/email");
 const { generateHexCode, hashPassword } = require("../services/cryptography");
 
 exports.searchUsers = async (req, res, next) => {
@@ -121,6 +121,37 @@ exports.verifyUser = async (req, res, next) => {
         await db.VerificationCode.destroy({ where: { code: code } });
 
         res.status(200).json({ message: "Verification successful!" });
+    } catch (err) {
+        next(err);
+    }
+};
+
+exports.resetPassword = async (req, res, next) => {
+    const { email } = req.body;
+
+    try {
+        const result = await db.User.findOne({ where: { email: email } });
+
+        if (!result) {
+            return res
+                .status(400)
+                .json({ message: "No user exists with that email" });
+        }
+
+        const newPassword = generateHexCode(8);
+        const hashedPassword = await hashPassword(newPassword);
+
+        await db.User.update(
+            { hash: hashedPassword },
+            { where: { email: email } }
+        );
+
+        res.status(200).json({
+            message:
+                "Password reset successfully, please check your email for further instructions"
+        });
+
+        await sendNewPassword(email, newPassword);
     } catch (err) {
         next(err);
     }

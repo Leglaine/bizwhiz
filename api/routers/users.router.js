@@ -21,5 +21,6 @@ router.get("/:id", controller.getUserById);
 router.patch("/:id", controller.updateUser);
 router.delete("/:id", controller.deleteUser);
 router.get("/verify/:code", controller.verifyUser);
+router.post("/reset-password", controller.resetPassword);
 
 module.exports = router;
