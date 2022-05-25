@@ -1,7 +1,7 @@
 <header>
     <img src="/public/logo.png" alt="logo" />
     <img id="menu-icon" src="/public/images/menu-icon.svg" alt="menu icon" />
-    <nav id="menu" class="menu--closed">
+    <nav class="menu menu--closed">
         <ul>
             <li>
                 <a href="/">Home</a>
@@ -12,19 +12,48 @@
             <li>
                 <a href="/login">Log In</a>
             </li>
+            <li>
+                <a href="/reset-password">Reset Password</a>
+            </li>
         </ul>
     </nav>
 </header>
 
+<style>
+    .menu {
+        position: absolute;
+        display: block;
+        top: var(--header-height);
+        background-color: #c8c8c8;
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .menu--closed {
+        right: -100vw;
+        transition: right 0.75s;
+    }
+
+    .menu--open {
+        right: 0;
+        transition: right 0.75s;
+    }
+
+    #menu-icon {
+        float: right;
+    }
+
+    .menu ul li {
+        list-style: none;
+    }
+</style>
+
 <script defer>
     const menuIcon = document.getElementById("menu-icon");
-    const menu = document.getElementById("menu");
+    const menu = document.querySelector(".menu");
 
     menuIcon.addEventListener("click", e => {
-        if (menu.className === "menu--closed") {
-            menu.className = "menu--open";
-        } else {
-            menu.className = "menu--closed";
-        }
+        menu.classList.toggle("menu--closed");
+        menu.classList.toggle("menu--open");
     });
 </script>

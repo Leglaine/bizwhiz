@@ -59,6 +59,20 @@ button {
     color: white;
 }
 
+form {
+    width: 80vw;
+    margin: auto;
+}
+
+input, form button {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
 header {
     position: fixed;
     top: 0;
@@ -66,10 +80,6 @@ header {
     height: var(--header-height);
     background-color: var(--primary);
     color: white;
-}
-
-#menu-icon {
-    float: right;
 }
 
 footer {
@@ -84,17 +94,4 @@ footer p {
     font-size: 0.75rem;
     text-align: center;
     padding: 5px;
-}
-
-.menu--closed {
-    display: none;
-}
-
-.menu--open {
-    position: absolute;
-    display: block;
-    top: var(--header-height);
-    height: 100vh;
-    width: 100vw;
-    background-color: #333333;
 }

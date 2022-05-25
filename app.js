@@ -35,6 +35,10 @@ app.get("/login", (_req, res) => {
     res.render("login");
 });
 
+app.get("/reset-password", (_req, res) => {
+    res.render("reset-password");
+});
+
 app.use("/public", express.static(path.join(__dirname, "client", "public")));
 
 app.get("*", (_req, res) => {
