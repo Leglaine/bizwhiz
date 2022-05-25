@@ -5,6 +5,8 @@ const app = require("../../app");
 const db = require("../../api/db/models");
 
 let userId;
+let basicAccessToken;
+let adminAccessToken;
 
 beforeAll(async () => {
     // Protect tests against improper teardown
@@ -131,9 +133,6 @@ describe("POST /api/users", () => {
 });
 
 describe("GET /api/users", () => {
-    let basicAccessToken;
-    let adminAccessToken;
-
     beforeAll(async () => {
         const basicResponse = await request(app).post("/api/tokens").send({
             email: "johndoe@email.com",
@@ -190,7 +189,9 @@ describe("GET /api/users", () => {
 
 describe("GET /api/users/:id", () => {
     test("Returns the correct response on success", async () => {
-        const response = await request(app).get(`/api/users/${userId}`);
+        const response = await request(app)
+            .get(`/api/users/${userId}`)
+            .set("Authorization", `Bearer ${basicAccessToken}`);
         expect(response.status).toEqual(200);
     });
 });

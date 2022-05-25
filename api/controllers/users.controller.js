@@ -1,6 +1,7 @@
 const db = require("../db/models");
 const { sendVerificationEmail, sendNewPassword } = require("../services/email");
 const { generateHexCode, hashPassword } = require("../services/cryptography");
+const { canViewUser } = require("../permissions/users.perm");
 
 exports.searchUsers = async (req, res, next) => {
     try {
@@ -66,8 +67,12 @@ exports.createUser = async (req, res, next) => {
 };
 
 exports.getUserById = async (req, res, next) => {
-    // TODO: Authorization
     const { id } = req.params;
+
+    if (!canViewUser(req.user, id)) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
+
     try {
         const result = await db.User.findOne({ where: { id: id } });
         const user = result.dataValues;
