@@ -39,12 +39,21 @@ app.get("/reset-password", (_req, res) => {
     res.render("reset-password");
 });
 
+// All images, css, and frontend javascript files must be served statically
 app.use("/public", express.static(path.join(__dirname, "client", "public")));
 
+/*
+    The 404 error handler must come after all routers, and before any other
+    error handlers.
+*/
 app.get("*", (_req, res) => {
     res.render("error", { message: "404 Not Found" });
 });
 
+/*
+    Error handlers must take four arguments and must come after any other
+    middleware.
+*/
 // eslint-disable-next-line no-unused-vars
 app.use((err, _req, res, _next) => {
     console.error(err);

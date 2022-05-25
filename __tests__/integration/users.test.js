@@ -248,3 +248,4 @@ describe("DELETE /api/users/:id", () => {
 });
 
 // TODO: Test updateUser
+// TODO: Test resetPassword
