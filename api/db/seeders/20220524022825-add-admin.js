@@ -7,6 +7,7 @@ const { ADMIN_GIVEN_NAME, ADMIN_FAMILY_NAME, ADMIN_EMAIL, ADMIN_PASSWORD } =
     process.env;
 
 module.exports = {
+    // eslint-disable-next-line no-unused-vars
     async up(queryInterface, Sequelize) {
         const adminHash = await hashPassword(ADMIN_PASSWORD);
         await queryInterface.bulkInsert(
@@ -28,6 +29,7 @@ module.exports = {
         );
     },
 
+    // eslint-disable-next-line no-unused-vars
     async down(queryInterface, Sequelize) {
         await queryInterface.bulkDelete("users", { email: ADMIN_EMAIL }, {});
     }

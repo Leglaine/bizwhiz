@@ -38,7 +38,7 @@ app.get("/login", (_req, res) => {
 app.use("/public", express.static(path.join(__dirname, "client", "public")));
 
 app.get("*", (_req, res) => {
-    res.send("Error 404 Not Found");
+    res.render("error", { message: "404 Not Found" });
 });
 
 // eslint-disable-next-line no-unused-vars

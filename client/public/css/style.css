@@ -85,3 +85,16 @@ footer p {
     text-align: center;
     padding: 5px;
 }
+
+.menu--closed {
+    display: none;
+}
+
+.menu--open {
+    position: absolute;
+    display: block;
+    top: var(--header-height);
+    height: 100vh;
+    width: 100vw;
+    background-color: #333333;
+}

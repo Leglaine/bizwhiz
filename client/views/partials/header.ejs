@@ -1,4 +1,30 @@
 <header>
     <img src="/public/logo.png" alt="logo" />
     <img id="menu-icon" src="/public/images/menu-icon.svg" alt="menu icon" />
+    <nav id="menu" class="menu--closed">
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/signup">Sign Up</a>
+            </li>
+            <li>
+                <a href="/login">Log In</a>
+            </li>
+        </ul>
+    </nav>
 </header>
+
+<script defer>
+    const menuIcon = document.getElementById("menu-icon");
+    const menu = document.getElementById("menu");
+
+    menuIcon.addEventListener("click", e => {
+        if (menu.className === "menu--closed") {
+            menu.className = "menu--open";
+        } else {
+            menu.className = "menu--closed";
+        }
+    });
+</script>
