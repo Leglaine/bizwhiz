@@ -31,6 +31,10 @@ app.get("/signup", (_req, res) => {
     res.render("signup");
 });
 
+app.get("/login", (_req, res) => {
+    res.render("login");
+});
+
 app.use("/public", express.static(path.join(__dirname, "client", "public")));
 
 app.get("*", (_req, res) => {

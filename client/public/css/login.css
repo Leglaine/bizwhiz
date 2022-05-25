@@ -1,0 +1,21 @@
+#login-form {
+    width: 80vw;
+    margin: auto;
+}
+
+input, form button {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#signup-link {
+    text-align: center;
+}
+
+#forgot-password {
+    text-align: center;
+}
