@@ -13,11 +13,8 @@
     "scripts": {
         "start": "node scripts/start.js",
         "dev": "nodemon -r dotenv/config scripts/start.js",
-        "test": "jest --runInBand --silent",
-        "test:int": "jest integration --runInBand --silent",
-        "test:unit": "jest unit",
-        "lint": "eslint -c config/.eslintrc.json ./",
-        "coverage": "jest --runInBand --silent --coverage"
+        "test": "node scripts/test.js",
+        "lint": "eslint -c config/.eslintrc.json ./"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",
@@ -39,5 +36,11 @@
         "nodemon": "^2.0.16",
         "supertest": "^6.2.3",
         "uuid": "^8.3.2"
+    },
+    "jest": {
+        "testPathIgnorePatterns": [
+            "/node_modules/",
+            "/scripts/"
+        ]
     }
 }
