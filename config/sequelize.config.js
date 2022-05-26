@@ -13,7 +13,13 @@ module.exports = {
     },
     test: {
         use_env_variable: "TEST_DATABASE_URL",
-        dialect: "postgres"
+        dialect: "postgres",
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        }
     },
     staging: {
         use_env_variable: "DATABASE_URL",
