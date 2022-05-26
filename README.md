@@ -2,6 +2,16 @@
 
 A business management app
 
+## setup
+
+-   Install [node](https://nodejs.org/en/)
+
+-   Install [npm](https://www.npmjs.com/)
+
+-   Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+-   Install [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli)
+
 ## scripts
 
 `npm start` - start the server (no hot reload)
