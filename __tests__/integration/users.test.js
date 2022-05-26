@@ -16,6 +16,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     await db.User.destroy({ where: {} });
+    await db.Token.destroy({ where: {} });
     await db.sequelize.close();
 });
 
@@ -270,6 +271,28 @@ describe("GET /api/users/verify/:code", () => {
 });
 
 describe("DELETE /api/users/:id", () => {
+    test("Returns the correct response if no access token is provided", async () => {
+        const response = await request(app).delete(`/api/users/${johnId}`);
+        expect(response.status).toEqual(401);
+        expect(response.body.message).toEqual("Access token required");
+    });
+
+    test("Returns the correct response if access token is invalid", async () => {
+        const response = await request(app)
+            .delete(`/api/users/${johnId}`)
+            .set("Authorization", `Bearer hvhchcxghx`);
+        expect(response.status).toEqual(401);
+        expect(response.body.message).toEqual("Invalid access token");
+    });
+
+    test("Returns the correct response if user is forbidden", async () => {
+        const response = await request(app)
+            .delete(`/api/users/${adminId}`)
+            .set("Authorization", `Bearer ${johnAccessToken}`);
+        expect(response.status).toEqual(403);
+        expect(response.body.message).toEqual("Forbidden");
+    });
+
     test("Returns the correct response on success", async () => {
         const response = await request(app)
             .delete(`/api/users/${johnId}`)
