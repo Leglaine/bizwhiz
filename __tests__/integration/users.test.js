@@ -243,7 +243,9 @@ describe("GET /api/users/verify/:code", () => {
 
 describe("DELETE /api/users/:id", () => {
     test("Returns the correct response on success", async () => {
-        const response = await request(app).delete(`/api/users/${userId}`);
+        const response = await request(app)
+            .delete(`/api/users/${userId}`)
+            .set("Authorization", `Bearer ${basicAccessToken}`);
         expect(response.status).toEqual(200);
     });
 });

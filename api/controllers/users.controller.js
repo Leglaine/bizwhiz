@@ -1,7 +1,7 @@
 const db = require("../db/models");
 const { sendVerificationEmail, sendNewPassword } = require("../services/email");
 const { generateHexCode, hashPassword } = require("../services/cryptography");
-const { canViewUser } = require("../permissions/users.perm");
+const { canViewUser, canDeleteUser } = require("../permissions/users.perm");
 
 exports.searchUsers = async (req, res, next) => {
     try {
@@ -94,8 +94,12 @@ exports.updateUser = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-    // TODO: Authorization
     const { id } = req.params;
+
+    if (!canDeleteUser(req.user, id)) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
+
     try {
         await db.User.destroy({ where: { id: id } });
         res.status(200).json({ message: "User deleted!" });
