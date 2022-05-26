@@ -4,8 +4,9 @@ const { hash } = require("bcrypt");
 const app = require("../../app");
 const db = require("../../api/db/models");
 
-let userId;
-let basicAccessToken;
+let johnId;
+let johnAccessToken;
+let adminId;
 let adminAccessToken;
 
 beforeAll(async () => {
@@ -114,7 +115,7 @@ describe("POST /api/users", () => {
         expect(response.body.user.createdAt).toBeDefined();
         expect(response.body.user.updatedAt).toBeDefined();
         expect(response.body.user.hash).not.toBeDefined();
-        userId = response.body.user.id;
+        johnId = response.body.user.id;
     });
 
     test("Returns the correct response if email already exists", async () => {
@@ -138,10 +139,12 @@ describe("GET /api/users", () => {
             email: "johndoe@email.com",
             password: "123"
         });
-        basicAccessToken = basicResponse.body.accessToken;
+
+        johnAccessToken = basicResponse.body.accessToken;
 
         const hashedPassword = await hash("123", 10);
-        await db.User.create({
+
+        const admin = await db.User.create({
             given_name: "Jane",
             family_name: "Doe",
             email: "janedoe@email.com",
@@ -149,10 +152,13 @@ describe("GET /api/users", () => {
             role: "ADMIN"
         });
 
+        adminId = admin.dataValues.id;
+
         const adminResponse = await request(app).post("/api/tokens").send({
             email: "janedoe@email.com",
             password: "123"
         });
+
         adminAccessToken = adminResponse.body.accessToken;
     });
 
@@ -173,7 +179,7 @@ describe("GET /api/users", () => {
     test("Returns the correct response if user is not authorized", async () => {
         const response = await request(app)
             .get("/api/users")
-            .set("Authorization", `Bearer ${basicAccessToken}`);
+            .set("Authorization", `Bearer ${johnAccessToken}`);
         expect(response.status).toEqual(403);
         expect(response.body.message).toEqual("Forbidden");
     });
@@ -188,10 +194,32 @@ describe("GET /api/users", () => {
 });
 
 describe("GET /api/users/:id", () => {
+    test("Returns the correct response if no access token is provided", async () => {
+        const response = await request(app).get(`/api/users/${johnId}`);
+        expect(response.status).toEqual(401);
+        expect(response.body.message).toEqual("Access token required");
+    });
+
+    test("Returns the correct response if access token is invalid", async () => {
+        const response = await request(app)
+            .get(`/api/users/${johnId}`)
+            .set("Authorization", `Bearer hvashcvkbk`);
+        expect(response.status).toEqual(401);
+        expect(response.body.message).toEqual("Invalid access token");
+    });
+
+    test("Returns the correct response if user is forbidden", async () => {
+        const response = await request(app)
+            .get(`/api/users/${adminId}`)
+            .set("Authorization", `Bearer ${johnAccessToken}`);
+        expect(response.status).toEqual(403);
+        expect(response.body.message).toEqual("Forbidden");
+    });
+
     test("Returns the correct response on success", async () => {
         const response = await request(app)
-            .get(`/api/users/${userId}`)
-            .set("Authorization", `Bearer ${basicAccessToken}`);
+            .get(`/api/users/${johnId}`)
+            .set("Authorization", `Bearer ${johnAccessToken}`);
         expect(response.status).toEqual(200);
     });
 });
@@ -244,8 +272,8 @@ describe("GET /api/users/verify/:code", () => {
 describe("DELETE /api/users/:id", () => {
     test("Returns the correct response on success", async () => {
         const response = await request(app)
-            .delete(`/api/users/${userId}`)
-            .set("Authorization", `Bearer ${basicAccessToken}`);
+            .delete(`/api/users/${johnId}`)
+            .set("Authorization", `Bearer ${johnAccessToken}`);
         expect(response.status).toEqual(200);
     });
 });
