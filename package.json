@@ -18,22 +18,19 @@
     },
     "dependencies": {
         "bcrypt": "^5.0.1",
+        "dotenv": "^16.0.1",
         "ejs": "^3.1.8",
+        "eslint": "^8.16.0",
         "express": "^4.18.1",
+        "jest": "^28.1.0",
         "jsonwebtoken": "^8.5.1",
         "morgan": "^1.10.0",
         "nodemailer": "^6.7.5",
+        "nodemon": "^2.0.16",
         "pg": "^8.7.3",
         "pg-hstore": "^2.3.4",
         "sequelize": "^6.19.0",
-        "sequelize-cli": "^6.4.1"
-    },
-    "devDependencies": {
-        "coveralls": "^3.1.1",
-        "dotenv": "^16.0.1",
-        "eslint": "^8.15.0",
-        "jest": "^28.1.0",
-        "nodemon": "^2.0.16",
+        "sequelize-cli": "^6.4.1",
         "supertest": "^6.2.3",
         "uuid": "^8.3.2"
     },
