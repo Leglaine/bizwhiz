@@ -172,7 +172,7 @@ describe("GET /api/users", () => {
     test("Returns the correct response if access token is invalid", async () => {
         const response = await request(app)
             .get("/api/users")
-            .set("Authorization", "Bearer jkbdbbjbjb");
+            .set("Authorization", "Bearer invalidToken");
         expect(response.status).toEqual(401);
         expect(response.body.message).toEqual("Invalid access token");
     });
@@ -204,7 +204,7 @@ describe("GET /api/users/:id", () => {
     test("Returns the correct response if access token is invalid", async () => {
         const response = await request(app)
             .get(`/api/users/${johnId}`)
-            .set("Authorization", `Bearer hvashcvkbk`);
+            .set("Authorization", "Bearer invalidToken");
         expect(response.status).toEqual(401);
         expect(response.body.message).toEqual("Invalid access token");
     });
@@ -247,7 +247,7 @@ describe("GET /api/users/verify/:code", () => {
 
     test("Returns the correct response if the verification code is invalid", async () => {
         const response = await request(app).get(
-            "/api/users/verify/ftfthgfhfthf"
+            "/api/users/verify/invalidCode"
         );
         expect(response.status).toEqual(400);
         expect(response.body.message).toEqual("Invalid verification code");
@@ -280,7 +280,7 @@ describe("DELETE /api/users/:id", () => {
     test("Returns the correct response if access token is invalid", async () => {
         const response = await request(app)
             .delete(`/api/users/${johnId}`)
-            .set("Authorization", `Bearer hvhchcxghx`);
+            .set("Authorization", "Bearer invalidToken");
         expect(response.status).toEqual(401);
         expect(response.body.message).toEqual("Invalid access token");
     });
