@@ -39,6 +39,10 @@ app.get("/reset-password", (_req, res) => {
     res.render("reset-password");
 });
 
+app.get("/contacts", (_req, res) => {
+    res.render("contacts");
+});
+
 // All images, css, and frontend javascript files must be served statically
 app.use("/public", express.static(path.join(__dirname, "client", "public")));
 

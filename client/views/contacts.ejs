@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/public/css/style.css" />
+        <title>Contacts | BizWhiz</title>
+    </head>
+    <body>
+        <%- include("partials/header") %>
+        <h1>Contacts</h1>
+        <button>New Contact</button>
+        <form style="display: none">
+            <input type="text" id="title" placeholder="Title" />
+            <input type="text" id="given-name" placeholder="First name" />
+            <input type="text" id="middle-name" placeholder="Middle name" />
+            <input type="text" id="family-name" placeholder="Last name" />
+            <input type="text" id="suffix" placeholder="Suffix" />
+            <input type="text" id="job-title" placeholder="Job title" />
+            <input type="text" id="company-name" placeholder="Company name" />
+            <input type="text" id="display-name" placeholder="Display name" />
+            <input type="email" id="email" placeholder="Email" />
+            <input type="tel" id="phone" placeholder="Phone" />
+            <input type="text" id="address" placeholder="Address" />
+            <input type="text" id="unit" placeholder="Unit" />
+            <input type="text" id="city" placeholder="City" />
+            <input type="text" id="province" placeholder="Province/State" />
+            <input type="text" id="country" placeholder="Country" />
+            <input type="text" id="postal-code" placeholder="Postal code" />
+            <input type="checkbox" id="is-client" />
+            <label for="is-client">Is client?</label>
+            <button style="margin-bottom: 50px">Submit</button>
+        </form>
+        <%- include("partials/footer") %>
+    </body>
+</html>
