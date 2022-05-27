@@ -1,18 +1,20 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-    class VerificationCode extends Model {
-        // eslint-disable-next-line no-unused-vars
-        static associate(models) {
-            // define associations here
-        }
-    }
+    class VerificationCode extends Model {}
+
     VerificationCode.init(
         {
             user_id: {
                 type: DataTypes.UUID,
                 allowNull: false,
-                primaryKey: true
+                primaryKey: true,
+                references: {
+                    model: {
+                        tableName: "users"
+                    },
+                    key: "id"
+                }
             },
             code: {
                 type: DataTypes.STRING,
@@ -27,5 +29,6 @@ module.exports = (sequelize, DataTypes) => {
             underscored: true
         }
     );
+
     return VerificationCode;
 };
